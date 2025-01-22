@@ -52,9 +52,9 @@ def create_package(config_path="config.json"):
 """)
     print(f"Created {package_name}/__init__.py")
 
-    # Generate README.md and setup.py from config
+    # Generate README.md and pyproject.toml from config
     generate_readme(package_name, config)
-    generate_setup_py(package_name, config)
+    generate_pyproject(package_name, config)
 
     print(f"Package '{package_name}' created successfully!")
 
@@ -71,29 +71,34 @@ def generate_readme(package_name, config):
         file.write(readme_content)
     print(f"Created {package_name}/README.md")
 
-def generate_setup_py(package_name, config):
-    """Generate a setup.py file based on config."""
-    setup_content = f"""from setuptools import setup, find_packages
+def generate_pyproject(package_name, config):
+    """Generate a pyproject.toml file based on config."""
+    pyproject_content = f"""[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
 
-setup(
-    name="{config.get('name', package_name)}",
-    version="{config.get('version', '0.1.0')}",
-    author="{config.get('author', 'Unknown')}",
-    author_email="{config.get('author_email', 'unknown@example.com')}",
-    description="{config.get('description', 'A Python package created with PyPackify.')}",
-    package_dir={{"": "src"}},
-    packages=find_packages(where="src"),
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: {config.get('license', 'MIT')} License",
-        "Operating System :: OS Independent",
-    ],
-    python_requires='>=3.6',
-)
+[project]
+name = "{config.get('name', package_name)}"
+version = "{config.get('version', '0.1.0')}"
+description = "{config.get('description', 'A Python package created with PyPackify.')}"
+authors = [
+    {{ name = "{config.get('author', 'Unknown')}", email = "{config.get('author_email', 'unknown@example.com')}" }}
+]
+license = "{config.get('license', 'MIT')}"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: {config.get('license', 'MIT')} License",
+    "Operating System :: OS Independent",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
 """
-    with open(os.path.join(package_name, "setup.py"), "w") as file:
-        file.write(setup_content)
-    print(f"Created {package_name}/setup.py")
+    with open(os.path.join(package_name, "pyproject.toml"), "w") as file:
+        file.write(pyproject_content)
+    print(f"Created {package_name}/pyproject.toml")
 
 def main():
     import argparse

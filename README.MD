@@ -1,3 +1,4 @@
+
 # PyPackify
 
 PyPackify is a tool for converting multiple Python files into a structured Python package. It generates essential package files for easy usage and distribution.
@@ -5,7 +6,8 @@ PyPackify is a tool for converting multiple Python files into a structured Pytho
 ## Features
 
 * Converts multiple Python files into a Python package.
-* Specify metadata
+* Generates a `pyproject.toml` file for Python packaging.
+* Creates a root-level `__init__.py` to expose package functionality.
 
 ## Installation
 
@@ -43,7 +45,7 @@ python pypackify.py --config config.json
 ```
 example_package/
 ├── README.md
-├── setup.py
+├── pyproject.toml
 ├── __init__.py
 ├── src/
 │   ├── example1.py
