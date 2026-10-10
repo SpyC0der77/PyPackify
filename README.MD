@@ -11,7 +11,12 @@ PyPackify is a tool for converting multiple Python files into a structured Pytho
 
 ## Installation
 
-Clone the repository or copy the `pypackify.py` script to your working directory.
+Use Python 3.6 or newer. The script uses only the Python standard library.
+
+```bash
+git clone https://github.com/SpyC0der77/PyPackify.git
+cd PyPackify
+```
 
 ## Usage
 
@@ -51,6 +56,12 @@ example_package/
 │   ├── example1.py
 │   ├── example2.py
 ```
+
+## Current limitations
+
+Paths in `files` resolve relative to the working directory. Invalid or missing Python files are skipped. Running the script again with the same package name overwrites generated metadata and copied files.
+
+The generated layout is a starting point. It creates `__init__.py` at the root while setuptools discovery points at `src`, so review the package layout and imports before building or publishing it. The script does not build a wheel or publish to PyPI.
 
 ## License
 
